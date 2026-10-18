@@ -32,7 +32,7 @@
             font-size: 16px;
             font-weight: bold;
             color: white;
-            background-color: #2ecc71; /* لون أخضر مريح */
+            background-color: #2ecc71;
             text-decoration: none;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
@@ -44,24 +44,37 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0,0,0,0.1);
         }
-        .file-btn:active {
-            transform: translateY(0);
-        }
     </style>
+    <script>
+        // دالة تقوم بإنشاء رابط مستعرض مايكروسوفت تلقائياً بناءً على رابط موقعك الحالي
+        function openWord(fileName) {
+            var currentUrl = window.location.href.split('?')[0].split('#')[0];
+            // إذا كان الرابط ينتهي بـ index.html نقوم بإزالته للحصول على المسار الأساسي
+            if(currentUrl.endsWith('index.html')) {
+                currentUrl = currentUrl.replace('index.html', '');
+            }
+            if(!currentUrl.endsWith('/')) {
+                currentUrl += '/';
+            }
+            var fileUrl = currentUrl + fileName;
+            var officeUrl = "https://live.com" + encodeURIComponent(fileUrl);
+            window.open(officeUrl, '_blank');
+        }
+    </script>
 </head>
 <body>
 
-    <h1>اضغط لعرض أو تحميل المستند المطلوب</h1>
+    <h1>اضغط لعرض المستند مباشرة</h1>
 
     <div class="container">
-        <!-- ملاحظة: إذا قمت بتحويل الملفات إلى PDF، قم بتغيير .docx إلى .pdf في الأسفل -->
-        <a href="ALLNOm.docx" class="file-btn">ALLNOm</a>
-        <a href="ALLUPD.docx" class="file-btn">ALLUPD</a>
-        <a href="CSTOPNorm.docx" class="file-btn">CSTOPNorm</a>
-        <a href="LeaderOPNorm.docx" class="file-btn">LeaderOPNorm</a>
-        <a href="LeaderTSNorm.docx" class="file-btn">LeaderTSNorm</a>
-        <a href="RETAILRPNorm.docx" class="file-btn">RETAILRPNorm</a>
-        <a href="RETCSTFINNorm.docx" class="file-btn">RETCSTFINNorm</a>
+        <!-- عند الضغط على الزر سيفتح الملف أونلاين عبر مستعرض مايكروسوفت -->
+        <a href="javascript:void(0)" onclick="openWord('ALLNOm.docx')" class="file-btn">ALLNOm</a>
+        <a href="javascript:void(0)" onclick="openWord('ALLUPD.docx')" class="file-btn">ALLUPD</a>
+        <a href="javascript:void(0)" onclick="openWord('CSTOPNorm.docx')" class="file-btn">CSTOPNorm</a>
+        <a href="javascript:void(0)" onclick="openWord('LeaderOPNorm.docx')" class="file-btn">LeaderOPNorm</a>
+        <a href="javascript:void(0)" onclick="openWord('LeaderTSNorm.docx')" class="file-btn">LeaderTSNorm</a>
+        <a href="javascript:void(0)" onclick="openWord('RETAILRPNorm.docx')" class="file-btn">RETAILRPNorm</a>
+        <a href="javascript:void(0)" onclick="openWord('RETCSTFINNorm.docx')" class="file-btn">RETCSTFINNorm</a>
     </div>
 
 </body>
