@@ -3,96 +3,545 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة المستندات</title>
+    <title>لوحة المستندات والتطبيقات</title>
+    <!-- استدعاء الخطوط والايقونات FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Kufam:wght@700&family=Tajawal:wght@400;500;700&family=Orbitron:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        :root {
+            --primary-bg: #0f172a;
+            --google-blue: #4285F4;
+            --google-red: #EA4335;
+            --google-yellow: #FBBC05;
+            --google-green: #34A853;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f7f6;
-            padding: 40px 20px;
+            font-family: 'Tajawal', Arial, sans-serif;
+            background-color: #f1f5f9;
             margin: 0;
+            padding: 0;
+            color: #334155;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 30px;
+
+        /* خلفية الصفحة العامة بكلمة VerNoX */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='140' viewBox='0 0 280 140'%3E%3Ctext x='20' y='80' font-family='Orbitron, sans-serif' font-size='38' font-weight='800' font-style='italic' fill='%202563eb' transform='rotate(-20 140 70)'%3EVerNoX%3C/text%3E%3Cpath d='M 10 110 Q 70 80, 140 110 T 270 110' fill='none' stroke='%232563eb' stroke-width='2.5' transform='rotate(-20 140 70)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
         }
-        .container {
+
+        /* تخطيط الصفحة الرئيسي للربط مع القائمة الجانبية */
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 15px;
+            gap: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .main-content {
+            flex: 1 1 700px;
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+
+        /* 1. العنوان الرئيسي بخلفية ألوان الطيف وخط كوفي */
+        .rainbow-header {
+            width: 100%;
+            padding: 22px 15px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+            background-size: 300% 300%;
+            animation: rainbowGradient 8s ease infinite;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            text-align: center;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .rainbow-header h1 {
+            font-family: 'Kufam', sans-serif;
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 24px;
+            margin: 0;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+            line-height: 1.5;
+        }
+
+        @keyframes rainbowGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 2. مستطيل حواف مزخرفة وخلفية ألوان جوجل مع رموز مظللة */
+        .google-box {
+            position: relative;
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            border: 3px dashed var(--google-blue);
+            background: linear-gradient(135deg, rgba(66, 133, 244, 0.08), rgba(234, 67, 53, 0.08), rgba(251, 188, 5, 0.08), rgba(52, 168, 83, 0.08));
+            text-align: center;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .google-box::before {
+            content: "💬 📱 📄 ⚡ 🔍 📁 ✉️ 🌐 📲 💻";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            opacity: 0.07;
+            font-size: 22px;
+            word-spacing: 25px;
+            line-height: 2.2;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .google-box h2 {
+            margin: 0;
+            font-size: 19px;
+            color: #1e293b;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 3. حاوية الأزرار او الملفات بخلفية عادية */
+        .buttons-container-box {
+            width: 100%;
+            background: linear-gradient(145deg, rgba(240, 249, 255, 0.9), rgba(224, 242, 254, 0.95));
+            backdrop-filter: blur(8px);
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+            border: 2px solid rgba(56, 189, 248, 0.4);
+            margin-bottom: 25px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
             gap: 15px;
-            max-width: 400px;
+            max-width: 450px;
             margin: 0 auto;
         }
+
         .file-btn {
             display: inline-block;
             width: 100%;
             box-sizing: border-box;
-            padding: 14px 20px;
-            font-size: 16px;
-            font-weight: bold;
+            padding: 15px 20px;
+            font-size: 17px;
+            font-weight: 700;
             color: white;
-            background-color: #2ecc71;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
             text-decoration: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            cursor: pointer;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
+
         .file-btn:hover {
-            background-color: #27ae60;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.45);
+        }
+
+        .file-btn:active {
+            transform: translateY(1px) scale(0.98);
+            background: #196f3d;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 4. مستطيل الحواف مع الأسهم */
+        .glow-alert-box {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+            animation: pulseGlow 2s infinite alternate;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            box-sizing: border-box;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+            100% { box-shadow: 0 0 22px rgba(239, 68, 68, 0.85); }
+        }
+
+        .glow-alert-box p {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 700;
+            color: #991b1b;
+            text-align: center;
+            line-height: 1.6;
+            flex: 1;
+            padding: 0 10px;
+        }
+
+        .arrow-icon {
+            font-size: 24px;
+            color: #dc2626;
+        }
+
+        .arrow-right { animation: bounceRight 1.2s infinite alternate; }
+        .arrow-left { animation: bounceLeft 1.2s infinite alternate; }
+
+        @keyframes bounceRight {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-8px); }
+        }
+        @keyframes bounceLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(8px); }
+        }
+
+        /* 5. الشريط الجانبي (تطبيقات الهاتف) */
+        .sidebar {
+            flex: 0 0 320px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+            border: 2px solid #3b82f6;
+            height: fit-content;
+            box-sizing: border-box;
+        }
+
+        .sidebar-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1d4ed8;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .apk-badge {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .sidebar-card {
+            background: #eff6ff;
+            border-right: 4px solid #2563eb;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: right;
+            margin-top: 15px;
+        }
+
+        /* 6. الفوتر*/
+        footer {
+            position: relative;
+            z-index: 1;
+            background-color: var(--primary-bg);
+            color: #f8fafc;
+            padding: 40px 20px 20px;
+            margin-top: auto;
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .footer-section h3 {
+            color: #60a5fa;
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 8px;
+            width: 100%;
+        }
+
+        /* عناصر التواصل (الإيميلات والهواتف) */
+        .footer-link-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: #cbd5e1;
+            font-size: 14px;
+            text-decoration: none;
+            word-break: break-all;
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .footer-link-item i {
+            color: #38bdf8;
+            width: 20px;
+            font-size: 16px;
+        }
+
+        .footer-link-item:hover {
+            background: rgba(56, 189, 248, 0.15);
+            color: #ffffff;
+            border-color: #38bdf8;
+            transform: translateX(-4px);
+        }
+
+        .social-icons-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #1e293b;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #334155;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-4px);
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .social-btn.wa:hover { background: #22c55e; }
+        .social-btn.fb:hover { background: #1877f2; }
+        .social-btn.li:hover { background: #0a66c2; }
+        .social-btn.ig:hover { background: #e1306c; }
+        .social-btn.gh:hover { background: #333333; }
+        .social-btn.sc:hover { background: #fffc00; color: #000; }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            bottom: 55px;
+            right: 0;
+            background-color: #1e293b;
+            min-width: 180px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
+            border-radius: 10px;
+            z-index: 10;
+            border: 1px solid #334155;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: #f8fafc;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 13px;
+            transition: background 0.2s;
+            text-align: right;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #334155;
+            color: #22c55e;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #1e293b;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .page-wrapper { flex-direction: column; }
+            .sidebar { order: 2; }
+            .main-content { order: 1; }
+            .rainbow-header h1 { font-size: 19px; }
+            .google-box h2 { font-size: 16px; }
+            .glow-alert-box p { font-size: 14px; }
         }
     </style>
 </head>
 <body>
 
-    <h1>اضغط علي النسخة التي تريد لتحميلها او عرضها مباشرة</h1><br />
-    <h2>اضغط مرة واحدة بس وهيفتح معاك مباشرة</h2><br />
+    <div class="page-wrapper">
+        
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
 
-    <div class="container">
-        <!-- استخدام خاصية download تجعل الهاتف يحمل الملف فوراً وبشكل مباشر دون وسيط -->
-        <a href="ALLNOm.docx" download class="file-btn">ALLNOm</a><br />
-        <a href="ALLUPD.docx" download class="file-btn">ALLUPD</a><br />
-        <a href="CSTOPNorm.docx" download class="file-btn">CSTOPNorm</a><br />
-        <a href="LeaderOPNorm.docx" download class="file-btn">LeaderOPNorm</a><br />
-        <a href="LeaderTSNorm.docx" download class="file-btn">LeaderTSNorm</a><br />
-        <a href="RETAILRPNorm.docx" download class="file-btn">RETAILRPNorm</a><br />
-        <a href="RETCSTFINNorm.docx" download class="file-btn">RETCSTFINNorm</a><br />
+            <!-- 1. العنوان الرئيسي -->
+            <div class="rainbow-header">
+                <h1>اضغط علي النسخة التي تريد لتحميلها او عرضها مباشرة</h1>
+            </div>
+
+            <!-- 2. مستطيل ألوان جوجل والنقوش الخفيفة -->
+            <div class="google-box">
+                <h2>اضغط مرة واحدة بس وهيفتح معاك مباشرة</h2>
+            </div>
+
+            <!-- 3. الأزرار /الملفات المعروضة -->
+            <div class="buttons-container-box">
+                <div class="container">
+                    <a href="ALLNOm.docx" download class="file-btn"><i class="fa-solid fa-file-word"></i> ALLNOm</a>
+                    <a href="ALLUPD.docx" download class="file-btn"><i class="fa-solid fa-file-word"></i> ALLUPD</a>
+                    <a href="CSTOPNorm.docx" download class="file-btn"><i class="fa-solid fa-file-word"></i> CSTOPNorm</a>
+                    <a href="LeaderOPNorm.docx" download class="file-btn"><i class="fa-solid fa-file-word"></i> LeaderOPNorm</a>
+                    <a href="LeaderTSNorm.docx" download class="file-btn"><i class="fa-solid fa-file-word"></i> LeaderTSNorm</a>
+                    <a href="RETAILRPNorm.docx" download class="file-btn"><i class="fa-solid fa-file-word"></i> RETAILRPNorm</a>
+                    <a href="RETCSTFINNorm.docx" download class="file-btn"><i class="fa-solid fa-file-word"></i> RETCSTFINNorm</a>
+                </div>
+            </div>
+
+            <!-- 4. مستطيل التنويه -->
+            <div class="glow-alert-box">
+                <i class="fa-solid fa-angles-left arrow-icon arrow-right"></i>
+                <p>خليك متابع السايت دا هتستفيد في الايام الجاية بتجربة الابلكيشنز اللي بعملها بشكل مباشر قبل ماتنزل بشكل مدفوع علي جوجل بلاي</p>
+                <i class="fa-solid fa-angles-right arrow-icon arrow-left"></i>
+            </div>
+
+        </main>
+
+        <!-- 5. الشريط الجانبي لتطبيقات الهاتف مستقبلاً -->
+        <aside class="sidebar">
+            <div style="text-align: center;">
+                <span class="apk-badge"><i class="fa-android fa-brands"></i> قسم التطبيقات القادمة</span>
+            </div>
+            <h3 class="sidebar-title">انتظر قريبا اطلاق تطبيقات الهاتف في هذا القسم</h3>
+            
+            <div class="sidebar-card">
+                <p style="margin:0; font-size: 14px; color: #3b82f6; font-weight:bold;">🚀 سيتم إضافة ملفات base.apk مباشرة هنا.</p>
+                <p style="margin:5px 0 0 0; font-size: 12px; color: #64748b;">يمكنك تجربة أحدث التطبيقات والأدوات من صناعتي مجاناً فور نشرها.</p>
+            </div>
+        </aside>
+
     </div>
-    <div>
-        <h1><p>خليك متابع السايت دا هتستفيد في الايام الجاية بتجربة الابلكيشنز اللي بعملها بشكل مباشر قبل ماتنزل بشكل مدفوع علي جوجل بلاي</p></h1>
-    </div>
-    
-    
-    
-    <div>
-         <p>اتواصل معايا لو عندك فكرة تطبيق جديدة او  تحسين تطبيق موجود او حتي مجرد دردشة عصف ذهني</<br /><p>
-         <p>
-         Email1 : ahmedhamdeahmedfetoh@gmail.com<br />
-         Email2 : ahmed.ha.fetoh@gmail.com<br />
-         Email3 : ahmedelhabashy351@gmail.com<br />
-         </p><br />
-         <p>
-         Phone1 : 01226818675<br />
-         Phone2 : 01140045922<br />
-         Phone3 : 01094097648<br />
-         </p><br />
-         <p>
-         WhatsApp1 : https://wa.me/+201226818675<br />
-         WhatsApp2 : https://wa.me/+201140045922<br />
-         WhatsApp3 : https://wa.me/+201094097648<br />
-         LinkedIn : https://www.linkedin.com/in/ahmed-ahmed-5b12641a0/<br />
-         Facebook : https://www.facebook.com/ahmed.hamde.511812<br />
-         Instagram : https://www.instagram.com/v_en_o_m_88?igsh=MXE2ZnKwOXoyd25wNA==<br />
-         Github : https://github.com/Ahmed887v<br />
-         snapcaht : https://www.snapchat.com/add/vernox88?share_id=DK4MH-RMzxA&local=ar-EG<br />
-         </p><br />
-    </div>
-    <div>
-    <h3><p>لو عندك اي افكار او ملاحظات لتحسين الشكل ابعتلي او استني لحد ما الموقع يقبل الادخالات واكتبها</p></h3><br />
-    </div>
+
+    <!-- 6. الفوتر -->
+    <footer>
+        <div class="footer-container">
+            
+            <!-- التواصل الكتابي (الإيميلات) -->
+            <div class="footer-section">
+                <h3><i class="fa-solid fa-envelope"></i> التواصل الكتابي (البريد)</h3>
+                <a href="mailto:ahmedhamdeahmedfetoh@gmail.com" class="footer-link-item"><i class="fa-solid fa-at"></i> ahmedhamdeahmedfetoh@gmail.com</a>
+                <a href="mailto:ahmed.ha.fetoh@gmail.com" class="footer-link-item"><i class="fa-solid fa-at"></i> ahmed.ha.fetoh@gmail.com</a>
+                <a href="mailto:ahmedelhabashy351@gmail.com" class="footer-link-item"><i class="fa-solid fa-at"></i> ahmedelhabashy351@gmail.com</a>
+            </div>
+
+            <!-- التواصل الهاتفي (أرقام الهاتف  للاتصال المباشر) -->
+            <div class="footer-section">
+                <h3><i class="fa-solid fa-phone-volume"></i> التواصل الهاتفي</h3>
+                <a href="tel:+201226818675" class="footer-link-item"><i class="fa-solid fa-mobile-screen-button"></i> 01226818675</a>
+                <a href="tel:+201140045922" class="footer-link-item"><i class="fa-solid fa-mobile-screen-button"></i> 01140045922</a>
+                <a href="tel:+201094097648" class="footer-link-item"><i class="fa-solid fa-mobile-screen-button"></i> 01094097648</a>
+            </div>
+
+            <!-- المنصات-->
+            <div class="footer-section">
+                <h3><i class="fa-solid fa-share-nodes"></i> منصات التواصل</h3>
+                <p style="font-size:12px; color:#94a3b8; margin-top:0;">اضغط على الرمز للوصول المباشر:</p>
+                <div class="social-icons-grid">
+                    
+                    <!-- واتساب مع قائمة منسدلة بالأرقام الثلاثة -->
+                    <div class="dropdown">
+                        <div class="social-btn wa"><i class="fa-brands fa-whatsapp"></i></div>
+                        <div class="dropdown-content">
+                            <a href="https://wa.me/+201226818675" target="_blank"><i class="fa-brands fa-whatsapp"></i> واتساب 1 (0122)</a>
+                            <a href="https://wa.me/+201140045922" target="_blank"><i class="fa-brands fa-whatsapp"></i> واتساب 2 (0114)</a>
+                            <a href="https://wa.me/+201094097648" target="_blank"><i class="fa-brands fa-whatsapp"></i> واتساب 3 (0109)</a>
+                        </div>
+                    </div>
+
+                    <a href="https://www.linkedin.com/in/ahmed-ahmed-5b12641a0/" target="_blank" class="social-btn li" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://www.facebook.com/ahmed.hamde.511812" target="_blank" class="social-btn fb" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/v_en_o_m_88?igsh=MXE2ZnKwOXoyd25wNA==" target="_blank" class="social-btn ig" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://github.com/Ahmed887v" target="_blank" class="social-btn gh" title="Github"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.snapchat.com/add/vernox88?share_id=DK4MH-RMzxA&local=ar-EG" target="_blank" class="social-btn sc" title="Snapchat"><i class="fa-brands fa-snapchat"></i></a>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>لو عندك اي افكار او ملاحظات لتحسين الشكل ابعتلي او استني لحد ما الموقع يقبل الادخالات واكتبها</p><br />
+                           <p>  CopyRight Saved For Developer Eng_Ahmed </p>
+        </div>
+    </footer>
 
 </body>
 </html>
